@@ -16,3 +16,12 @@ def download_discord():
     open('DiscordSetup.exe', 'wb').write(r.content)
     os.startfile("DiscordSetup.exe")
     pass
+
+def download_epic_games_launcher():
+    url = 'https://download1.epicgames.com/Builds/UnrealEngineLauncher/Windows/EpicGamesLauncher.exe'
+    r = requests.get(url, allow_redirects=True)
+
+    open('EpicInstaller-15.17.1', 'wb').write(r.content)
+    os.startfile("EpicInstaller-15.17.1.exe") 
+    # Will need to be able to handle versions getting updated in the future, I may cache downloads in S3 possibly?
+    pass

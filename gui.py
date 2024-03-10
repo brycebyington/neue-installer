@@ -15,6 +15,23 @@ class MainWindow(QMainWindow):
     
     def __init__(self):
         super().__init__()
+        
+        app_downloads = [
+            ("Install VS Code", ad.download_vscode),
+            ("Install Spotify", ad.download_spotify),
+            ("Install VLC", ad.download_vlc)
+        ]
+        
+        browser_downloads = [
+            ("Install Firefox", bd.download_firefox),
+            ("Install Chrome", bd.download_chrome)
+        ]
+        
+        gaming_downloads = [
+            ("Install Steam", gd.download_steam),
+            ("Install Discord", gd.download_discord),
+            ("Install EGL", gd.download_epic_games_launcher)
+        ]
 
         self.setWindowTitle("Neue Installer")
         self.layout = QVBoxLayout()
@@ -36,12 +53,13 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(browser_section_label)
         
         browser_layout = QHBoxLayout()
-        chrome_button = QPushButton("Install Chrome")
-        chrome_button.clicked.connect(bd.download_chrome)
-        firefox_button = QPushButton("Install Firefox")
-        firefox_button.clicked.connect(bd.download_firefox)
-        browser_layout.addWidget(chrome_button)
-        browser_layout.addWidget(firefox_button)
+        
+        for text, download_func in browser_downloads:
+            button = QPushButton(text)
+            button.clicked.connect(download_func)
+            self.layout.addWidget(button)
+            
+        
         self.layout.addLayout(browser_layout)
         
         # Gaming downloads
@@ -49,12 +67,12 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(gaming_section_label)
         
         gaming_layout = QHBoxLayout()
-        steam_button = QPushButton("Install Steam")
-        steam_button.clicked.connect(gd.download_steam)
-        discord_button = QPushButton("Install Discord")
-        discord_button.clicked.connect(gd.download_discord)
-        gaming_layout.addWidget(steam_button)
-        gaming_layout.addWidget(discord_button)
+        
+        for text, download_func in gaming_downloads:
+            button = QPushButton(text)
+            button.clicked.connect(download_func)
+            self.layout.addWidget(button)
+        
         self.layout.addLayout(gaming_layout)
         
         # App downloads
@@ -62,20 +80,20 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(app_section_label)
         
         app_layout = QHBoxLayout()
-        spotify_button = QPushButton("Install Spotify")
-        spotify_button.clicked.connect(ad.download_spotify)
-        vscode_button = QPushButton("Install VS Code")
-        vscode_button.clicked.connect(ad.download_vscode)
-        app_layout.addWidget(spotify_button)
-        app_layout.addWidget(vscode_button)
-        self.layout.addLayout(app_layout)
         
-        for widget in self.layout.parentWidget().findChildren(QPushButton):
-            widget.setFixedSize(100, 40)
-            s.applyButtonStyles(self, widget)
+        for text, download_func in app_downloads:
+            button = QPushButton(text)
+            button.clicked.connect(download_func)
+            self.layout.addWidget(button)
+        
+        self.layout.addLayout(app_layout)
             
         for widget in self.layout.parentWidget().findChildren(QLabel):
             s.applyLabelStyles(self, widget)
+            
+        for widget in self.layout.parentWidget().findChildren(QPushButton):
+            widget.setFixedSize(100, 40)
+            s.applyButtonStyles(self, widget)
     
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Quit', "All installation files will be cleared. Are you sure you want to exit?", QMessageBox.Yes | QMessageBox.No)

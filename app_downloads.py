@@ -14,3 +14,10 @@ def download_vscode():
     open('VSCodeSetup.exe', 'wb').write(r.content)
     os.startfile("VSCodeSetup.exe")
     pass
+
+def download_vlc():
+    url = 'https://mirror.fcix.net/videolan-ftp/vlc/3.0.20/win64/vlc-3.0.20-win64.exe'
+    r = requests.get(url, allow_redirects=True)
+    open('vlc-3.0.20-win64', 'wb').write(r.content)
+    os.startfile("vlc-3.0.20-win64")
+    pass
